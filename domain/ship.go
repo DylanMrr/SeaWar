@@ -1,6 +1,8 @@
 package domain
 
-import "github.com/DylanMrr/seawar/core"
+import (
+	"github.com/DylanMrr/seawar/core"
+)
 
 type Ship struct {
 	Length      int
@@ -35,11 +37,21 @@ func (ship *Ship) GetShipArea() Rect {
 		} else {
 			xEnd = (*ship).FirstCell.XIndex + (*ship).Length
 		}
+		if (*ship).FirstCell.YIndex+(*ship).Length >= 9 {
+			yEnd = 9
+		} else {
+			yEnd = (*ship).FirstCell.YIndex + (*ship).Length
+		}
 	} else { //v
 		if (*ship).FirstCell.YIndex+(*ship).Length >= 9 {
 			yEnd = 9
 		} else {
 			yEnd = (*ship).FirstCell.YIndex + (*ship).Length
+		}
+		if (*ship).FirstCell.XIndex+(*ship).Length >= 9 {
+			xEnd = 9
+		} else {
+			xEnd = (*ship).FirstCell.XIndex + (*ship).Length
 		}
 	}
 	return Rect{XStart: xStart, XEnd: xEnd, YStart: yStart, YEnd: yEnd}

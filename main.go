@@ -1,43 +1,13 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/DylanMrr/seawar/domain"
+	"github.com/DylanMrr/seawar/game"
 	"github.com/DylanMrr/seawar/ui"
-	"github.com/DylanMrr/seawar/ui/input"
 )
 
 func main() {
 	ui.PrintStartText()
 
-	var userBoard domain.Board = domain.Board{IsPlayerBoard: true}
-	var ship domain.Ship
-	for !canAddShipToBoard(&ship, &userBoard, 1) {
-		fmt.Println("Попробуйте еще раз")
-	}
-
+	board := game.InitField()
+	ui.PrintField(board)
 }
-
-func canAddShipToBoard(ship *domain.Ship, board *domain.Board, shipSize int) bool {
-	var err error
-	if ship, err = input.InputShip(shipSize); err != nil {
-		fmt.Println(err)
-		return false
-	}
-
-	shipNearArea := ship.GetShipArea()
-	//shipArea := ship.GetShip()
-
-	for i := shipNearArea.XStart; i <= shipNearArea.XEnd; i++ {
-		for j := shipNearArea.YStart; i <= shipNearArea.YEnd; j++ {
-			if (*board).Cells[j][i].State != 0 {
-				fmt.Println("Занятые клетки")
-				return false
-			}
-		}
-	}
-	return true
-}
-
-func addShipToBoard(ship *domain.Ship, board *domain.Board)

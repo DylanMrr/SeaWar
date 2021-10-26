@@ -58,11 +58,11 @@ func InputShip(size int) (*domain.Ship, error) {
 }
 
 func validateCell(ship *string) (int, int, error) {
-	if len(*ship) != 2 {
+	if len(*ship) != 2 && len(*ship) != 3 {
 		return -1, -1, errors.New("Некорректный формат ввода корабля")
 	}
 
-	index, err := strconv.Atoi(string((*ship)[1]))
+	index, err := strconv.Atoi(string((*ship)[1:]))
 	if err != nil {
 		return -1, -1, errors.New("Некорректный числовой индекс")
 	}
@@ -79,11 +79,11 @@ func validateCell(ship *string) (int, int, error) {
 
 func validateShip(ship *domain.Ship) bool {
 	if (*ship).Orientation == 0 || (*ship).Orientation == 2 {
-		if (*ship).FirstCell.XIndex+(*ship).Length > 9 {
+		if (*ship).FirstCell.XIndex+(*ship).Length > 10 {
 			return false
 		}
 	} else { //v
-		if (*ship).FirstCell.YIndex+(*ship).Length > 9 {
+		if (*ship).FirstCell.YIndex+(*ship).Length > 10 {
 			return false
 		}
 	}

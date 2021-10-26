@@ -1,3 +1,3 @@
 package input
 
-const Symbols = "abcdefgh"
+const Symbols = "abcdefghij"
