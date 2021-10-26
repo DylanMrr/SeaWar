@@ -12,21 +12,18 @@ func main() {
 	ui.PrintStartText()
 
 	var userBoard domain.Board = domain.Board{IsPlayerBoard: true}
-
-	var ship *domain.Ship
-	for ship, isOk := canAddShipToBoard(&userBoard); !isOk{
-		
+	var ship domain.Ship
+	for !canAddShipToBoard(&ship, &userBoard, 1) {
+		fmt.Println("Попробуйте еще раз")
 	}
 
 }
 
-func canAddShipToBoard(board *domain.Board) (*domain.Ship, bool) {
-
-	var ship *domain.Ship
+func canAddShipToBoard(ship *domain.Ship, board *domain.Board, shipSize int) bool {
 	var err error
-	if ship, err = input.InputShip(1); err != nil {
+	if ship, err = input.InputShip(shipSize); err != nil {
 		fmt.Println(err)
-		return nil, false
+		return false
 	}
 
 	shipNearArea := ship.GetShipArea()
@@ -36,9 +33,11 @@ func canAddShipToBoard(board *domain.Board) (*domain.Ship, bool) {
 		for j := shipNearArea.YStart; i <= shipNearArea.YEnd; j++ {
 			if (*board).Cells[j][i].State != 0 {
 				fmt.Println("Занятые клетки")
-				return nil, false
+				return false
 			}
 		}
 	}
-	return &ship, true
+	return true
 }
+
+func addShipToBoard(ship *domain.Ship, board *domain.Board)
