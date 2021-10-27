@@ -11,10 +11,12 @@ import (
 func InitField() *domain.Board {
 	var userBoard domain.Board = domain.Board{IsPlayerBoard: true}
 
-	for i := 0; i < 4; i++ {
+	var ships [10]int = [10]int{1, 1, 1, 1, 2, 2, 2, 3, 3, 4}
+
+	for i := 0; i < 10; i++ {
 		var ship *domain.Ship
 		for true {
-			shipTemp, isOk := canAddShipToBoard(&userBoard, 1)
+			shipTemp, isOk := canAddShipToBoard(&userBoard, ships[i])
 			if isOk {
 				ship = shipTemp
 				break
@@ -35,7 +37,7 @@ func canAddShipToBoard(board *domain.Board, shipSize int) (*domain.Ship, bool) {
 		return nil, false
 	}
 
-	shipNearArea := ship.GetShipArea()
+	shipNearArea := ship.GetShip()
 
 	for i := shipNearArea.XStart; i <= shipNearArea.XEnd; i++ {
 		for j := shipNearArea.YStart; j <= shipNearArea.YEnd; j++ {

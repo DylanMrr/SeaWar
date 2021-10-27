@@ -37,10 +37,10 @@ func (ship *Ship) GetShipArea() Rect {
 		} else {
 			xEnd = (*ship).FirstCell.XIndex + (*ship).Length
 		}
-		if (*ship).FirstCell.YIndex+(*ship).Length >= 9 {
+		if (*ship).FirstCell.YIndex+1 >= 9 {
 			yEnd = 9
 		} else {
-			yEnd = (*ship).FirstCell.YIndex + (*ship).Length
+			yEnd = (*ship).FirstCell.YIndex + 1
 		}
 	} else { //v
 		if (*ship).FirstCell.YIndex+(*ship).Length >= 9 {
@@ -48,10 +48,10 @@ func (ship *Ship) GetShipArea() Rect {
 		} else {
 			yEnd = (*ship).FirstCell.YIndex + (*ship).Length
 		}
-		if (*ship).FirstCell.XIndex+(*ship).Length >= 9 {
+		if (*ship).FirstCell.XIndex+1 >= 9 {
 			xEnd = 9
 		} else {
-			xEnd = (*ship).FirstCell.XIndex + (*ship).Length
+			xEnd = (*ship).FirstCell.XIndex + 1
 		}
 	}
 	return Rect{XStart: xStart, XEnd: xEnd, YStart: yStart, YEnd: yEnd}

@@ -35,6 +35,7 @@ func InputShip(size int) (*domain.Ship, error) {
 		fmt.Printf("Введите верхнюю левую ячейку для корабля из %d ячейкеек в формате b4\n", size)
 		var ship string
 		fmt.Scan(&ship)
+		fmt.Println()
 
 		x, y, err := validateCell(&ship)
 		if err != nil {
