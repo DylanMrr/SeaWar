@@ -3,8 +3,6 @@ package input
 import (
 	"errors"
 	"fmt"
-	"strconv"
-	"strings"
 
 	"github.com/DylanMrr/seawar/core"
 	"github.com/DylanMrr/seawar/domain"
@@ -17,7 +15,7 @@ func InputShip(size int) (*domain.Ship, error) {
 		var ship string
 		fmt.Scan(&ship)
 
-		x, y, err := validateCell(&ship)
+		x, y, err := ValidateCell(&ship)
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
@@ -37,7 +35,7 @@ func InputShip(size int) (*domain.Ship, error) {
 		fmt.Scan(&ship)
 		fmt.Println()
 
-		x, y, err := validateCell(&ship)
+		x, y, err := ValidateCell(&ship)
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
@@ -56,24 +54,4 @@ func InputShip(size int) (*domain.Ship, error) {
 		}
 		return &shipObject, nil
 	}
-}
-
-func validateCell(ship *string) (int, int, error) {
-	if len(*ship) != 2 && len(*ship) != 3 {
-		return -1, -1, errors.New("Некорректный формат ввода корабля")
-	}
-
-	index, err := strconv.Atoi(string((*ship)[1:]))
-	if err != nil {
-		return -1, -1, errors.New("Некорректный числовой индекс")
-	}
-
-	if strings.Contains(Symbols, string((*ship)[0])) && index >= 1 && index <= 10 {
-		xIndex, err := core.MapCharToIndex(string((*ship)[0]))
-		if err != nil {
-			return -1, -1, err
-		}
-		return xIndex, index - 1, nil
-	}
-	return -1, -1, errors.New("Некорректный корабль")
 }

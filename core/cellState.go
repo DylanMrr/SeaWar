@@ -7,6 +7,7 @@ const (
 	Ship                      //1
 	NearShip                  //2
 	Checked                   //3
+	Hitted                    //4
 )
 
 func (c CellState) Index() int {

@@ -5,8 +5,8 @@ import (
 
 	"github.com/DylanMrr/seawar/core"
 	"github.com/DylanMrr/seawar/domain"
-	"github.com/DylanMrr/seawar/ui"
 	"github.com/DylanMrr/seawar/ui/input"
+	"github.com/DylanMrr/seawar/ui/output"
 )
 
 func InitField() *domain.Board {
@@ -23,7 +23,7 @@ func InitField() *domain.Board {
 			fmt.Println("Попробуйте еще раз")
 		}
 		userBoard.AddShipToBoard(ship)
-		ui.PrintField(&userBoard)
+		output.PrintBoard(&userBoard)
 	}
 	return &userBoard
 }
