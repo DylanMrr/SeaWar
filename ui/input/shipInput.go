@@ -26,7 +26,7 @@ func InputShip(size int) (*domain.Ship, error) {
 		var orientation core.Orientation = core.Unit
 		shipObject := domain.Ship{Length: 1, FirstCell: firstCell, Orientation: orientation}
 
-		isOk := validateShip(&shipObject)
+		isOk := shipObject.ValidateShip()
 		if !isOk {
 			return nil, errors.New("Корабль не помещается")
 		}
@@ -44,13 +44,13 @@ func InputShip(size int) (*domain.Ship, error) {
 		}
 		firstCell := domain.Cell{XIndex: x, YIndex: y, State: 1}
 
-		fmt.Print("Введите ориентацию корабля. 0 - горизонтально, 1 - вертикально \n", size)
+		fmt.Print("Введите ориентацию корабля. 0 - горизонтально, 1 - вертикально \n")
 		var orientation core.Orientation
 		fmt.Scan(&orientation)
 
 		shipObject := domain.Ship{Length: size, FirstCell: firstCell, Orientation: orientation}
 
-		isOk := validateShip(&shipObject)
+		isOk := shipObject.ValidateShip()
 		if !isOk {
 			return nil, errors.New("Корабль не помещается")
 		}
@@ -76,17 +76,4 @@ func validateCell(ship *string) (int, int, error) {
 		return xIndex, index - 1, nil
 	}
 	return -1, -1, errors.New("Некорректный корабль")
-}
-
-func validateShip(ship *domain.Ship) bool {
-	if (*ship).Orientation == 0 || (*ship).Orientation == 2 {
-		if (*ship).FirstCell.XIndex+(*ship).Length > 10 {
-			return false
-		}
-	} else { //v
-		if (*ship).FirstCell.YIndex+(*ship).Length > 10 {
-			return false
-		}
-	}
-	return true
 }

@@ -77,3 +77,16 @@ func (ship *Ship) GetShip() Rect {
 
 	return Rect{XStart: xStart, XEnd: xEnd, YStart: yStart, YEnd: yEnd}
 }
+
+func (ship *Ship) ValidateShip() bool {
+	if (*ship).Orientation == 0 || (*ship).Orientation == 2 {
+		if (*ship).FirstCell.XIndex+(*ship).Length > 10 {
+			return false
+		}
+	} else { //v
+		if (*ship).FirstCell.YIndex+(*ship).Length > 10 {
+			return false
+		}
+	}
+	return true
+}
