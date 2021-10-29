@@ -15,12 +15,12 @@ func InputShip(size int) (*domain.Ship, error) {
 		var ship string
 		fmt.Scan(&ship)
 
-		x, y, err := ValidateCell(&ship)
+		i, j, err := ValidateCell(&ship)
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
 		}
-		firstCell := domain.Cell{XIndex: x, YIndex: y, State: 1}
+		firstCell := domain.Cell{I: i, J: j, State: 1}
 		var orientation core.Orientation = core.Unit
 		shipObject := domain.Ship{Length: 1, FirstCell: firstCell, Orientation: orientation}
 
@@ -35,12 +35,12 @@ func InputShip(size int) (*domain.Ship, error) {
 		fmt.Scan(&ship)
 		fmt.Println()
 
-		x, y, err := ValidateCell(&ship)
+		i, j, err := ValidateCell(&ship)
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
 		}
-		firstCell := domain.Cell{XIndex: x, YIndex: y, State: 1}
+		firstCell := domain.Cell{I: i, J: j, State: 1}
 
 		fmt.Print("Введите ориентацию корабля. 0 - горизонтально, 1 - вертикально \n")
 		var orientation core.Orientation

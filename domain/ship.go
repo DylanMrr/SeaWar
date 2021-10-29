@@ -12,79 +12,79 @@ type Ship struct {
 
 func (ship *Ship) GetShipArea() Rect {
 	var (
-		xStart int
-		xEnd   int
-		yStart int
-		yEnd   int
+		iStart int
+		iEnd   int
+		jStart int
+		jEnd   int
 	)
 
-	if (*ship).FirstCell.XIndex == 0 {
-		xStart = 0
+	if (*ship).FirstCell.I == 0 {
+		iStart = 0
 	} else {
-		xStart = (*ship).FirstCell.XIndex - 1
+		iStart = (*ship).FirstCell.I - 1
 	}
 
-	if (*ship).FirstCell.YIndex == 0 {
-		yStart = 0
+	if (*ship).FirstCell.J == 0 {
+		jStart = 0
 	} else {
-		yStart = (*ship).FirstCell.YIndex - 1
+		jStart = (*ship).FirstCell.J - 1
 	}
 
 	//h
 	if (*ship).Orientation == 0 || (*ship).Orientation == 2 {
-		if (*ship).FirstCell.XIndex+(*ship).Length >= 9 {
-			xEnd = 9
+		if (*ship).FirstCell.J+(*ship).Length >= 9 {
+			jEnd = 9
 		} else {
-			xEnd = (*ship).FirstCell.XIndex + (*ship).Length
+			jEnd = (*ship).FirstCell.J + (*ship).Length
 		}
-		if (*ship).FirstCell.YIndex+1 >= 9 {
-			yEnd = 9
+		if (*ship).FirstCell.I+1 >= 9 {
+			iEnd = 9
 		} else {
-			yEnd = (*ship).FirstCell.YIndex + 1
+			iEnd = (*ship).FirstCell.I + 1
 		}
 	} else { //v
-		if (*ship).FirstCell.YIndex+(*ship).Length >= 9 {
-			yEnd = 9
+		if (*ship).FirstCell.I+(*ship).Length >= 9 {
+			iEnd = 9
 		} else {
-			yEnd = (*ship).FirstCell.YIndex + (*ship).Length
+			iEnd = (*ship).FirstCell.I + (*ship).Length
 		}
-		if (*ship).FirstCell.XIndex+1 >= 9 {
-			xEnd = 9
+		if (*ship).FirstCell.J+1 >= 9 {
+			jEnd = 9
 		} else {
-			xEnd = (*ship).FirstCell.XIndex + 1
+			jEnd = (*ship).FirstCell.J + 1
 		}
 	}
-	return Rect{XStart: xStart, XEnd: xEnd, YStart: yStart, YEnd: yEnd}
+	return Rect{JStart: jStart, JEnd: jEnd, IStart: iStart, IEnd: iEnd}
 }
 
 func (ship *Ship) GetShip() Rect {
 	var (
-		xStart int
-		xEnd   int
-		yStart int
-		yEnd   int
+		iStart int
+		iEnd   int
+		jStart int
+		jEnd   int
 	)
-	xStart = (*ship).FirstCell.XIndex
-	yStart = (*ship).FirstCell.YIndex
+	jStart = (*ship).FirstCell.J
+	iStart = (*ship).FirstCell.I
 
 	if (*ship).Orientation == 0 || (*ship).Orientation == 2 {
-		xEnd = (*ship).FirstCell.XIndex + (*ship).Length - 1
-		yEnd = yStart
+		jEnd = (*ship).FirstCell.J + (*ship).Length - 1
+		iEnd = iStart
 	} else {
-		xEnd = xStart
-		yEnd = (*ship).FirstCell.YIndex + (*ship).Length - 1
+		jEnd = jStart
+		iEnd = (*ship).FirstCell.I + (*ship).Length - 1
 	}
 
-	return Rect{XStart: xStart, XEnd: xEnd, YStart: yStart, YEnd: yEnd}
+	return Rect{JStart: jStart, JEnd: jEnd, IStart: iStart, IEnd: iEnd}
 }
 
 func (ship *Ship) ValidateShip() bool {
 	if (*ship).Orientation == 0 || (*ship).Orientation == 2 {
-		if (*ship).FirstCell.XIndex+(*ship).Length > 10 {
+		if (*ship).FirstCell.J+(*ship).Length > 10 {
 			return false
 		}
 	} else { //v
-		if (*ship).FirstCell.YIndex+(*ship).Length > 10 {
+		if (*ship).FirstCell.I+(*ship).Length > 10 {
 			return false
 		}
 	}

@@ -16,11 +16,11 @@ func PrintBoard(board *domain.Board) {
 		}
 		fmt.Print("|")
 		for j := 0; j < 10; j++ {
-			if (*board).Cells[j][i].State == 0 {
+			if (*board).Cells[i][j].State == 0 {
 				fmt.Print(". ")
-			} else if (*board).Cells[j][i].State == 1 {
+			} else if (*board).Cells[i][j].State == 1 {
 				fmt.Print("O ")
-			} else if (*board).Cells[j][i].State == 2 {
+			} else if (*board).Cells[i][j].State == 2 {
 				fmt.Print("_ ")
 			}
 		}
@@ -40,11 +40,11 @@ func PrintBoards(userBoard *domain.Board, userFightBoard *domain.Board) {
 		}
 		fmt.Print("|")
 		for j := 0; j < 10; j++ {
-			if (*userBoard).Cells[j][i].State == 1 {
+			if (*userBoard).Cells[i][j].State == 1 {
 				fmt.Print("O ")
-			} else if (*userBoard).Cells[j][i].State == 3 {
+			} else if (*userBoard).Cells[i][j].State == 3 {
 				fmt.Print("* ")
-			} else if (*userBoard).Cells[j][i].State == 4 {
+			} else if (*userBoard).Cells[i][j].State == 4 {
 				fmt.Print("x ")
 			} else {
 				fmt.Print(". ")
@@ -58,11 +58,11 @@ func PrintBoards(userBoard *domain.Board, userFightBoard *domain.Board) {
 		}
 		fmt.Print("|")
 		for j := 0; j < 10; j++ {
-			if (*userFightBoard).Cells[j][i].State == 1 {
+			if (*userFightBoard).Cells[i][j].State == 1 {
 				fmt.Print("O ")
-			} else if (*userFightBoard).Cells[j][i].State == 3 {
+			} else if (*userFightBoard).Cells[i][j].State == 3 {
 				fmt.Print("* ")
-			} else if (*userFightBoard).Cells[j][i].State == 4 {
+			} else if (*userFightBoard).Cells[i][j].State == 4 {
 				fmt.Print("x ")
 			} else {
 				fmt.Print(". ")

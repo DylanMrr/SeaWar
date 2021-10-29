@@ -14,12 +14,12 @@ func InputCell() *domain.Cell {
 		fmt.Scan(&cell)
 		fmt.Println()
 
-		x, y, err := ValidateCell(&cell)
+		i, j, err := ValidateCell(&cell)
 		if err != nil {
 			fmt.Println(err)
 			continue
 		}
-		firstCell := domain.Cell{XIndex: x, YIndex: y, State: 1}
+		firstCell := domain.Cell{I: i, J: j}
 
 		return &firstCell
 	}

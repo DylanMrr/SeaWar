@@ -33,12 +33,17 @@ func StartGame() {
 	//output.PrintBoard(&userFightBoard)
 	output.PrintBoards(userBoard, &userFightBoard)
 
-	userMove := true
+	userMove := false
 
 	userPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: userBoard, FightBoard: &userFightBoard}
 	aiPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: aiBoard, FightBoard: &aiFightBoard}
+	fmt.Println(userBoard.Cells)
+	n := 1
+
+	bot := ai.Bot{}
 
 	for userPlayer.ShipCells > 0 || aiPlayer.ShipCells > 0 {
+		//todo уничтожение корабля соперника
 		if userMove {
 			fmt.Println("Ваш ход!")
 			chosenCell := input.InputCell()
@@ -46,23 +51,53 @@ func StartGame() {
 				chosenCell = input.InputCell()
 			}
 
-			if aiPlayer.Board.Cells[(*chosenCell).YIndex][(*chosenCell).XIndex].State == 1 {
+			if aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State == 1 {
 				aiPlayer.ShipCells--
-				aiPlayer.Board.Cells[(*chosenCell).YIndex][(*chosenCell).XIndex].State = 4
+				aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State = 4
+
+				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = 4
 			} else {
-				fmt.Println("Ваш ход!")
+				//fmt.Println("Ваш ход!")
 				fmt.Println("Ход соперника!")
 				userMove = false
-				aiPlayer.Board.Cells[(*chosenCell).YIndex][(*chosenCell).XIndex].State = 3
+				aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State = 3
+				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = 3
 			}
-		} else {
+		} else { //todo если выстрелили в середину корабля
+			i, j := bot.MakeMove(&aiFightBoard)
+			fmt.Println("i ", i, "j", j)
+			if CheckHit(userBoard, i, j) {
+				userPlayer.ShipCells--
+				bot.MarkCellHitted(&aiFightBoard, i, j)
+				bot.Shot(&aiFightBoard, i, j)
+				userBoard.Cells[i][j].State = 4
 
+				if IsShipDestroyed(&bot.Cells, userBoard) {
+					fmt.Println("Ваш корабль уничтожен")
+					bot.ShipDestroyedCallback(&aiFightBoard)
+				}
+
+			} else {
+				userBoard.Cells[i][j].State = 3
+				bot.MarkCellChecked(&aiFightBoard, i, j)
+				//userMove = true
+			}
+		}
+
+		fmt.Println("Шаг ", n)
+		//output.PrintBoards(userBoard, &userFightBoard)
+		output.PrintBoards(userBoard, &aiFightBoard)
+		fmt.Println()
+		n++
+		//debug
+		if n == 10 {
+			break
 		}
 	}
 }
 
 func validateCellState(fightBoard *domain.Board, chosenCell *domain.Cell) bool {
-	if (*fightBoard).Cells[(*chosenCell).YIndex][(*chosenCell).XIndex].State != 0 {
+	if (*fightBoard).Cells[(*chosenCell).I][(*chosenCell).J].State != 0 {
 		fmt.Println("Ячейка уже была выбрана")
 		return false
 	}
