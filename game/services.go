@@ -11,11 +11,11 @@ func CheckHit(board *domain.Board, i int, j int) bool {
 	return (*board).Cells[i][j].State == 1
 }
 
-func IsShipDestroyed(shootedCells *[]domain.Cell, board *domain.Board) bool {
+func IsShipDestroyed(shootedCells []*domain.Cell, board *domain.Board) bool {
 	for _, ship := range (*board).Ships {
 		shipArea := ship.GetShipArea()
-		if shipArea.Contains((*shootedCells)[0].I, (*shootedCells)[0].J) {
-			return len(*shootedCells) == ship.Length
+		if shipArea.Contains(shootedCells[0].I, shootedCells[0].J) {
+			return len(shootedCells) == ship.Length
 		}
 	}
 	return false

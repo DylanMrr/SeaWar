@@ -3,6 +3,7 @@ package input
 import (
 	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/DylanMrr/seawar/core"
 	"github.com/DylanMrr/seawar/domain"
@@ -13,7 +14,8 @@ func InputShip(size int) (*domain.Ship, error) {
 		fmt.Printf("Введите корабль из %d ячейки в формате b4..\n", size)
 
 		var ship string
-		fmt.Scan(&ship)
+		//fmt.Scan(&ship)
+		ship = Get()
 
 		i, j, err := ValidateCell(&ship)
 		if err != nil {
@@ -32,7 +34,8 @@ func InputShip(size int) (*domain.Ship, error) {
 	} else {
 		fmt.Printf("Введите верхнюю левую ячейку для корабля из %d ячейкеек в формате b4\n", size)
 		var ship string
-		fmt.Scan(&ship)
+		//fmt.Scan(&ship)
+		ship = Get()
 		fmt.Println()
 
 		i, j, err := ValidateCell(&ship)
@@ -44,7 +47,9 @@ func InputShip(size int) (*domain.Ship, error) {
 
 		fmt.Print("Введите ориентацию корабля. 0 - горизонтально, 1 - вертикально \n")
 		var orientation core.Orientation
-		fmt.Scan(&orientation)
+		//fmt.Scan(&orientation)
+		orientationInt, _ := strconv.Atoi(Get())
+		orientation = core.Orientation(orientationInt)
 
 		shipObject := domain.Ship{Length: size, FirstCell: firstCell, Orientation: orientation}
 

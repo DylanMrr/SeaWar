@@ -6,6 +6,17 @@ type Board struct {
 	Ships         []*Ship
 }
 
+func New() *Board {
+	board := Board{}
+
+	for i := 0; i < 10; i++ {
+		for j := 0; j < 10; j++ {
+			board.Cells[i][j] = Cell{I: i, J: j, State: 0}
+		}
+	}
+	return &board
+}
+
 func (board *Board) AddShipToBoard(ship *Ship) {
 	shipNearArea := ship.GetShipArea()
 	shipArea := ship.GetShip()

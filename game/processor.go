@@ -26,7 +26,8 @@ func StartGame() {
 		}
 	}
 	//ui.PrintField(aiBoard)
-	var aiFightBoard domain.Board
+	//var aiFightBoard domain.Board
+	aiFightBoard := domain.New()
 	//ui.PrintField(&aiFightBoard)
 
 	//output.PrintBoard(userBoard)
@@ -36,9 +37,10 @@ func StartGame() {
 	userMove := false
 
 	userPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: userBoard, FightBoard: &userFightBoard}
-	aiPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: aiBoard, FightBoard: &aiFightBoard}
+	aiPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: aiBoard, FightBoard: aiFightBoard}
 	fmt.Println(userBoard.Cells)
 	n := 1
+	ai.BuildMoves()
 
 	bot := ai.Bot{}
 
@@ -63,36 +65,37 @@ func StartGame() {
 				aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State = 3
 				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = 3
 			}
-		} else { //todo если выстрелили в середину корабля
-			i, j := bot.MakeMove(&aiFightBoard)
+		} else {
+			i, j := bot.MakeMove(aiFightBoard)
 			fmt.Println("i ", i, "j", j)
 			if CheckHit(userBoard, i, j) {
 				userPlayer.ShipCells--
-				bot.MarkCellHitted(&aiFightBoard, i, j)
-				bot.Shot(&aiFightBoard, i, j)
+				bot.MarkCellHitted(aiFightBoard, i, j)
+				bot.Shot(aiFightBoard, i, j)
 				userBoard.Cells[i][j].State = 4
 
-				if IsShipDestroyed(&bot.Cells, userBoard) {
+				if IsShipDestroyed(bot.Cells, userBoard) {
 					fmt.Println("Ваш корабль уничтожен")
-					bot.ShipDestroyedCallback(&aiFightBoard)
+					bot.ShipDestroyedCallback(aiFightBoard)
 				}
 
 			} else {
 				userBoard.Cells[i][j].State = 3
-				bot.MarkCellChecked(&aiFightBoard, i, j)
-				//userMove = true
+				bot.MarkCellChecked(aiFightBoard, i, j)
+				bot.Miss()
+				userMove = true
 			}
 		}
 
 		fmt.Println("Шаг ", n)
-		//output.PrintBoards(userBoard, &userFightBoard)
-		output.PrintBoards(userBoard, &aiFightBoard)
+		output.PrintBoards(userBoard, &userFightBoard)
+		//output.PrintBoards(userBoard, aiFightBoard)
 		fmt.Println()
 		n++
 		//debug
-		if n == 10 {
+		/*if n == 40 {
 			break
-		}
+		}*/
 	}
 }
 
