@@ -8,19 +8,20 @@ import (
 	"github.com/DylanMrr/seawar/domain"
 )
 
-func InitField() (*domain.Board, bool) {
+func InitField(k *int) (*domain.Board, bool) {
 	var board domain.Board = domain.Board{}
 
-	for i := 0; i < 10; i++ {
+	for i := 9; i >= 0; i-- {
 		var ship *domain.Ship
 		ok := false
-		for j := 0; j < 50; j++ {
+		for j := 0; j < 100; j++ {
 			shipTemp, isOk := canAddShipToBoard(&board, core.ShipsTypes[i])
 			if isOk {
 				ship = shipTemp
 				ok = true
 				break
 			}
+			(*k)++
 		}
 		if !ok {
 			return nil, false

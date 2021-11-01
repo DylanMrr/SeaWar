@@ -1,7 +1,6 @@
 package ai
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
@@ -20,8 +19,6 @@ func BuildMoves() {
 		}
 	}
 	rand.Shuffle(len(start), func(i, j int) { start[i], start[j] = start[j], start[i] })
-
-	fmt.Println("randomized")
 }
 
 func GetMove() (int, int) {

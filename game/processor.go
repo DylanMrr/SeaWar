@@ -11,41 +11,44 @@ import (
 )
 
 func StartGame() {
-	userBoard := InitField()
-	//ui.PrintField(userBoard)
-
-	var userFightBoard domain.Board
-	//ui.PrintField(&userFightBoard)
 
 	var aiBoard *domain.Board
-	for true {
-		boardTemp, ok := ai.InitField()
-		if ok {
-			aiBoard = boardTemp
-			break
-		}
-	}
-	//ui.PrintField(aiBoard)
-	//var aiFightBoard domain.Board
-	aiFightBoard := domain.New()
-	//ui.PrintField(&aiFightBoard)
 
-	//output.PrintBoard(userBoard)
-	//output.PrintBoard(&userFightBoard)
+	channel := make(chan *domain.Board)
+
+	go func(channel chan *domain.Board) {
+		k := 0
+		for true {
+			boardTemp, ok := ai.InitField(&k)
+			k++
+			if ok {
+				channel <- boardTemp
+				fmt.Println(k)
+				break
+			}
+		}
+	}(channel)
+
+	userBoard := InitField()
+
+	var userFightBoard domain.Board
+
+	aiFightBoard := domain.New()
+
 	output.PrintBoards(userBoard, &userFightBoard)
 
 	userMove := false
 
-	userPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: userBoard, FightBoard: &userFightBoard}
-	aiPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: aiBoard, FightBoard: aiFightBoard}
-	fmt.Println(userBoard.Cells)
 	n := 1
 	ai.BuildMoves()
 
 	bot := ai.Bot{}
 
+	aiBoard = <-channel
+	userPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: userBoard, FightBoard: &userFightBoard}
+	aiPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: aiBoard, FightBoard: aiFightBoard}
+
 	for userPlayer.ShipCells > 0 && aiPlayer.ShipCells > 0 {
-		//todo уничтожение корабля соперника
 		if userMove {
 			fmt.Println("Ваш ход!")
 			chosenCell := input.InputCell()
