@@ -3,9 +3,8 @@ package domain
 import "github.com/DylanMrr/seawar/core"
 
 type Board struct {
-	IsPlayerBoard bool
-	Cells         [10][10]Cell
-	Ships         []*Ship
+	Cells [10][10]Cell
+	Ships []*Ship
 }
 
 func New() *Board {

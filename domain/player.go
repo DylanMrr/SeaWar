@@ -1,7 +1,8 @@
 package domain
 
 type Player struct {
-	ShipCells  int
-	Board      *Board
-	FightBoard *Board
+	ShipCells    int
+	Board        *Board
+	FightBoard   *Board
+	ShootedCells []*Cell
 }

@@ -9,7 +9,7 @@ import (
 )
 
 func InitField() (*domain.Board, bool) {
-	var board domain.Board = domain.Board{IsPlayerBoard: false}
+	var board domain.Board = domain.Board{}
 
 	for i := 0; i < 10; i++ {
 		var ship *domain.Ship

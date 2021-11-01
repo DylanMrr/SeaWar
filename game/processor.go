@@ -59,6 +59,14 @@ func StartGame() {
 
 				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = core.Hitted
 
+				aiPlayer.ShootedCells = append(aiPlayer.ShootedCells, &userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J])
+
+				if IsShipDestroyed(aiPlayer.ShootedCells, aiBoard) {
+					fmt.Println("Убил!")
+					aiPlayer.ShootedCells = nil
+				}
+				fmt.Println("Ранил!")
+
 			} else {
 				fmt.Println("Ход соперника!")
 				userMove = false
