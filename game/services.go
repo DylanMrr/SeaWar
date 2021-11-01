@@ -1,14 +1,12 @@
 package game
 
 import (
-	"fmt"
-
+	"github.com/DylanMrr/seawar/core"
 	"github.com/DylanMrr/seawar/domain"
 )
 
 func CheckHit(board *domain.Board, i int, j int) bool {
-	fmt.Println((*board).Cells[i][j].State == 1)
-	return (*board).Cells[i][j].State == 1
+	return (*board).Cells[i][j].State == core.Ship
 }
 
 func IsShipDestroyed(shootedCells []*domain.Cell, board *domain.Board) bool {

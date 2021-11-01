@@ -36,7 +36,7 @@ func canAddShipToBoard(board *domain.Board, shipSize int) (*domain.Ship, bool) {
 	i := rand.Intn(10)
 	j := rand.Intn(10)
 	orientation := rand.Intn(2)
-	firstCell := domain.Cell{I: i, J: j, State: 1}
+	firstCell := domain.Cell{I: i, J: j, State: core.Ship}
 	ship := domain.Ship{Orientation: core.Orientation(orientation), Length: shipSize, FirstCell: firstCell}
 
 	isOk := ship.ValidateShip()
@@ -48,7 +48,7 @@ func canAddShipToBoard(board *domain.Board, shipSize int) (*domain.Ship, bool) {
 
 	for i := shipNearArea.IStart; i <= shipNearArea.IEnd; i++ {
 		for j := shipNearArea.JStart; j <= shipNearArea.JEnd; j++ {
-			if (*board).Cells[i][j].State != 0 {
+			if (*board).Cells[i][j].State != core.Empty {
 				return nil, false
 			}
 		}

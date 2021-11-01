@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/DylanMrr/seawar/core"
+
 type Board struct {
 	IsPlayerBoard bool
 	Cells         [10][10]Cell
@@ -11,7 +13,7 @@ func New() *Board {
 
 	for i := 0; i < 10; i++ {
 		for j := 0; j < 10; j++ {
-			board.Cells[i][j] = Cell{I: i, J: j, State: 0}
+			board.Cells[i][j] = Cell{I: i, J: j, State: core.Empty}
 		}
 	}
 	return &board
@@ -24,9 +26,9 @@ func (board *Board) AddShipToBoard(ship *Ship) {
 	for i := shipNearArea.IStart; i <= shipNearArea.IEnd; i++ {
 		for j := shipNearArea.JStart; j <= shipNearArea.JEnd; j++ {
 			if shipArea.Contains(i, j) {
-				(*board).Cells[i][j].State = 1
+				(*board).Cells[i][j].State = core.Ship
 			} else {
-				(*board).Cells[i][j].State = 2
+				(*board).Cells[i][j].State = core.NearShip
 			}
 		}
 	}

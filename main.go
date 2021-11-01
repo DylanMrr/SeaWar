@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/DylanMrr/seawar/game"
-	"github.com/DylanMrr/seawar/ui"
+	"github.com/DylanMrr/seawar/ui/output"
 )
 
 func main() {
-	ui.PrintStartText()
+	output.PrintStartText()
 	game.StartGame()
 }

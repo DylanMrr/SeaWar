@@ -53,19 +53,17 @@ func StartGame() {
 				chosenCell = input.InputCell()
 			}
 
-			//if aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State == 1 {
 			if CheckHit(aiBoard, (*chosenCell).I, (*chosenCell).J) {
 				aiPlayer.ShipCells--
-				aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State = 4
+				aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State = core.Hitted
 
-				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = 4
+				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = core.Hitted
 
 			} else {
-				//fmt.Println("Ваш ход!")
 				fmt.Println("Ход соперника!")
 				userMove = false
-				aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State = 3
-				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = 3
+				aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State = core.Checked
+				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = core.Checked
 			}
 		} else {
 			i, j := bot.MakeMove(aiFightBoard)
@@ -74,7 +72,7 @@ func StartGame() {
 				userPlayer.ShipCells--
 				bot.MarkCellHitted(aiFightBoard, i, j)
 				bot.Shot(aiFightBoard, i, j)
-				userBoard.Cells[i][j].State = 4
+				userBoard.Cells[i][j].State = core.Hitted
 
 				if IsShipDestroyed(bot.Cells, userBoard) {
 					fmt.Println("Ваш корабль уничтожен")
@@ -82,7 +80,7 @@ func StartGame() {
 				}
 
 			} else {
-				userBoard.Cells[i][j].State = 3
+				userBoard.Cells[i][j].State = core.Checked
 				bot.MarkCellChecked(aiFightBoard, i, j)
 				bot.Miss()
 				userMove = true
@@ -94,15 +92,11 @@ func StartGame() {
 		//output.PrintBoards(userBoard, aiFightBoard)
 		fmt.Println()
 		n++
-		//debug
-		/*if n == 40 {
-			break
-		}*/
 	}
 }
 
 func validateCellState(fightBoard *domain.Board, chosenCell *domain.Cell) bool {
-	if (*fightBoard).Cells[(*chosenCell).I][(*chosenCell).J].State != 0 {
+	if (*fightBoard).Cells[(*chosenCell).I][(*chosenCell).J].State != core.Empty {
 		fmt.Println("Ячейка уже была выбрана")
 		return false
 	}

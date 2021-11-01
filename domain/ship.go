@@ -31,7 +31,7 @@ func (ship *Ship) GetShipArea() Rect {
 	}
 
 	//h
-	if (*ship).Orientation == 0 || (*ship).Orientation == 2 {
+	if (*ship).Orientation == core.Horizontal || (*ship).Orientation == core.Unit {
 		if (*ship).FirstCell.J+(*ship).Length >= 9 {
 			jEnd = 9
 		} else {
@@ -67,7 +67,7 @@ func (ship *Ship) GetShip() Rect {
 	jStart = (*ship).FirstCell.J
 	iStart = (*ship).FirstCell.I
 
-	if (*ship).Orientation == 0 || (*ship).Orientation == 2 {
+	if (*ship).Orientation == core.Horizontal || (*ship).Orientation == core.Unit {
 		jEnd = (*ship).FirstCell.J + (*ship).Length - 1
 		iEnd = iStart
 	} else {
@@ -79,7 +79,7 @@ func (ship *Ship) GetShip() Rect {
 }
 
 func (ship *Ship) ValidateShip() bool {
-	if (*ship).Orientation == 0 || (*ship).Orientation == 2 {
+	if (*ship).Orientation == core.Horizontal || (*ship).Orientation == core.Unit {
 		if (*ship).FirstCell.J+(*ship).Length > 10 {
 			return false
 		}

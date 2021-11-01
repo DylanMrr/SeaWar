@@ -40,7 +40,7 @@ func canAddShipToBoard(board *domain.Board, shipSize int) (*domain.Ship, bool) {
 
 	for i := shipNearArea.IStart; i <= shipNearArea.IEnd; i++ {
 		for j := shipNearArea.JStart; j <= shipNearArea.JEnd; j++ {
-			if (*board).Cells[i][j].State != 0 {
+			if (*board).Cells[i][j].State != core.Empty {
 				fmt.Println("Занятые клетки")
 				return nil, false
 			}

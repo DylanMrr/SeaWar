@@ -3,6 +3,7 @@ package output
 import (
 	"fmt"
 
+	"github.com/DylanMrr/seawar/core"
 	"github.com/DylanMrr/seawar/domain"
 )
 
@@ -16,11 +17,11 @@ func PrintBoard(board *domain.Board) {
 		}
 		fmt.Print("|")
 		for j := 0; j < 10; j++ {
-			if (*board).Cells[i][j].State == 0 {
+			if (*board).Cells[i][j].State == core.Empty {
 				fmt.Print(". ")
-			} else if (*board).Cells[i][j].State == 1 {
+			} else if (*board).Cells[i][j].State == core.Ship {
 				fmt.Print("O ")
-			} else if (*board).Cells[i][j].State == 2 {
+			} else if (*board).Cells[i][j].State == core.NearShip {
 				fmt.Print("_ ")
 			}
 		}
@@ -40,11 +41,11 @@ func PrintBoards(userBoard *domain.Board, userFightBoard *domain.Board) {
 		}
 		fmt.Print("|")
 		for j := 0; j < 10; j++ {
-			if (*userBoard).Cells[i][j].State == 1 {
+			if (*userBoard).Cells[i][j].State == core.Ship {
 				fmt.Print("O ")
-			} else if (*userBoard).Cells[i][j].State == 3 {
+			} else if (*userBoard).Cells[i][j].State == core.Checked {
 				fmt.Print("* ")
-			} else if (*userBoard).Cells[i][j].State == 4 {
+			} else if (*userBoard).Cells[i][j].State == core.Hitted {
 				fmt.Print("x ")
 			} else {
 				fmt.Print(". ")
@@ -58,11 +59,11 @@ func PrintBoards(userBoard *domain.Board, userFightBoard *domain.Board) {
 		}
 		fmt.Print("|")
 		for j := 0; j < 10; j++ {
-			if (*userFightBoard).Cells[i][j].State == 1 {
+			if (*userFightBoard).Cells[i][j].State == core.Ship {
 				fmt.Print("O ")
-			} else if (*userFightBoard).Cells[i][j].State == 3 {
+			} else if (*userFightBoard).Cells[i][j].State == core.Checked {
 				fmt.Print("* ")
-			} else if (*userFightBoard).Cells[i][j].State == 4 {
+			} else if (*userFightBoard).Cells[i][j].State == core.Hitted {
 				fmt.Print("x ")
 			} else {
 				fmt.Print(". ")
