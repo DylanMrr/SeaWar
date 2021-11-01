@@ -44,7 +44,7 @@ func StartGame() {
 
 	bot := ai.Bot{}
 
-	for userPlayer.ShipCells > 0 || aiPlayer.ShipCells > 0 {
+	for userPlayer.ShipCells > 0 && aiPlayer.ShipCells > 0 {
 		//todo уничтожение корабля соперника
 		if userMove {
 			fmt.Println("Ваш ход!")
@@ -53,11 +53,13 @@ func StartGame() {
 				chosenCell = input.InputCell()
 			}
 
-			if aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State == 1 {
+			//if aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State == 1 {
+			if CheckHit(aiBoard, (*chosenCell).I, (*chosenCell).J) {
 				aiPlayer.ShipCells--
 				aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State = 4
 
 				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = 4
+
 			} else {
 				//fmt.Println("Ваш ход!")
 				fmt.Println("Ход соперника!")
