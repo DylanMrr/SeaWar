@@ -11,7 +11,7 @@ func CheckHit(board *domain.Board, i int, j int) bool {
 
 func IsShipDestroyed(shootedCells []*domain.Cell, board *domain.Board) bool {
 	for _, ship := range (*board).Ships {
-		shipArea := ship.GetShipArea()
+		shipArea := ship.GetShip()
 		if shipArea.Contains(shootedCells[0].I, shootedCells[0].J) {
 			return len(shootedCells) == ship.Length
 		}

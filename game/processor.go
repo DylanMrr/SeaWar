@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/DylanMrr/seawar/ai"
 	"github.com/DylanMrr/seawar/core"
@@ -15,15 +16,11 @@ func StartGame() {
 	var aiBoard *domain.Board
 
 	channel := make(chan *domain.Board)
-
 	go func(channel chan *domain.Board) {
-		k := 0
 		for true {
-			boardTemp, ok := ai.InitField(&k)
-			k++
+			boardTemp, ok := ai.InitField()
 			if ok {
 				channel <- boardTemp
-				fmt.Println(k)
 				break
 			}
 		}
@@ -31,13 +28,13 @@ func StartGame() {
 
 	userBoard := InitField()
 
-	var userFightBoard domain.Board
+	userFightBoard := domain.New()
 
 	aiFightBoard := domain.New()
 
-	output.PrintBoards(userBoard, &userFightBoard)
+	output.PrintBoards(userBoard, userFightBoard)
 
-	userMove := false
+	userMove := true
 
 	n := 1
 	ai.BuildMoves()
@@ -45,14 +42,16 @@ func StartGame() {
 	bot := ai.Bot{}
 
 	aiBoard = <-channel
-	userPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: userBoard, FightBoard: &userFightBoard}
+	userPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: userBoard, FightBoard: userFightBoard}
 	aiPlayer := domain.Player{ShipCells: core.ShipsCellsCount, Board: aiBoard, FightBoard: aiFightBoard}
 
 	for userPlayer.ShipCells > 0 && aiPlayer.ShipCells > 0 {
+		output.PrintDelimiter(fmt.Sprint("Шаг ", n))
 		if userMove {
-			fmt.Println("Ваш ход!")
+			fmt.Println("Твой ход!")
+
 			chosenCell := input.InputCell()
-			for !validateCellState(&userFightBoard, chosenCell) {
+			for !validateCellState(userFightBoard, chosenCell) {
 				chosenCell = input.InputCell()
 			}
 
@@ -62,47 +61,65 @@ func StartGame() {
 
 				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = core.Hitted
 
-				aiPlayer.ShootedCells = append(aiPlayer.ShootedCells, &userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J])
-
-				if IsShipDestroyed(aiPlayer.ShootedCells, aiBoard) {
-					fmt.Println("Убил!")
-					aiPlayer.ShootedCells = nil
+				userPlayer.ShootedCells = append(userPlayer.ShootedCells, &userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J])
+				output.PrintBoards(userBoard, userFightBoard)
+				if IsShipDestroyed(userPlayer.ShootedCells, aiBoard) {
+					fmt.Println("*** Убил!")
+					userPlayer.ShootedCells = nil
+				} else {
+					fmt.Println("** Ранил!")
 				}
-				fmt.Println("Ранил!")
 
 			} else {
-				fmt.Println("Ход соперника!")
 				userMove = false
 				aiPlayer.Board.Cells[(*chosenCell).I][(*chosenCell).J].State = core.Checked
 				userFightBoard.Cells[(*chosenCell).I][(*chosenCell).J].State = core.Checked
+				output.PrintBoards(userBoard, userFightBoard)
+				fmt.Println("Мимо!")
+				fmt.Println("Ход соперника!")
 			}
 		} else {
 			i, j := bot.MakeMove(aiFightBoard)
-			fmt.Println("i ", i, "j", j)
+
+			time.Sleep(2 * time.Second)
+
+			fmt.Println("Соперник сходил - ", core.MapIndexToChar(i, j))
+
 			if CheckHit(userBoard, i, j) {
 				userPlayer.ShipCells--
 				bot.MarkCellHitted(aiFightBoard, i, j)
 				bot.Shot(aiFightBoard, i, j)
 				userBoard.Cells[i][j].State = core.Hitted
-
+				output.PrintBoards(userBoard, userFightBoard)
 				if IsShipDestroyed(bot.Cells, userBoard) {
-					fmt.Println("Ваш корабль уничтожен")
+					fmt.Println("*** Твой корабль уничтожен")
 					bot.ShipDestroyedCallback(aiFightBoard)
+				} else {
+					fmt.Println("** Соперник ранил!")
 				}
 
 			} else {
 				userBoard.Cells[i][j].State = core.Checked
 				bot.MarkCellChecked(aiFightBoard, i, j)
 				bot.Miss()
+				output.PrintBoards(userBoard, userFightBoard)
+				fmt.Println("Соперник промахнулся!")
 				userMove = true
 			}
 		}
 
-		fmt.Println("Шаг ", n)
-		output.PrintBoards(userBoard, &userFightBoard)
-		//output.PrintBoards(userBoard, aiFightBoard)
+		//output.PrintBoards(userBoard, &userFightBoard)
 		fmt.Println()
 		n++
+	}
+	output.PrintDelimiter("")
+	output.PrintDelimiter("Игра завершена!")
+	if userPlayer.ShipCells > 0 {
+		fmt.Println("****** Ты победил! Поздравляю! ******")
+	} else {
+		fmt.Println("****** К сожалению, ты проиграл( Не отчаивайся и пробуй заново! ******")
+		fmt.Println("Доска соперника")
+		output.PrintBoard(aiBoard)
 	}
 }
 

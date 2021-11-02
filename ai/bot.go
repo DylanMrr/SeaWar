@@ -1,8 +1,6 @@
 package ai
 
 import (
-	"fmt"
-
 	"github.com/DylanMrr/seawar/core"
 	"github.com/DylanMrr/seawar/domain"
 )
@@ -49,19 +47,15 @@ func (bot *Bot) ShipDestroyedCallback(aiFightBoard *domain.Board) {
 func (bot *Bot) buildCellsAroundHit(aiFightBoard *domain.Board, i int) {
 	if (*bot).Cells[i].J+1 <= 9 && (*aiFightBoard).Cells[(*bot).Cells[i].I][(*bot).Cells[i].J+1].State == core.Empty {
 		(*bot).CellsAroundHit = append((*bot).CellsAroundHit, &(*aiFightBoard).Cells[(*bot).Cells[i].I][(*bot).Cells[i].J+1])
-		fmt.Println((*bot).Cells[i].I, (*bot).Cells[i].J+1)
 	}
 	if (*bot).Cells[i].I+1 <= 9 && (*aiFightBoard).Cells[(*bot).Cells[i].I+1][(*bot).Cells[i].J].State == core.Empty {
 		(*bot).CellsAroundHit = append((*bot).CellsAroundHit, &(*aiFightBoard).Cells[(*bot).Cells[i].I+1][(*bot).Cells[i].J])
-		fmt.Println((*bot).Cells[i].I+1, (*bot).Cells[i].J)
 	}
 	if (*bot).Cells[i].J-1 >= 0 && (*aiFightBoard).Cells[(*bot).Cells[i].I][(*bot).Cells[i].J-1].State == core.Empty {
 		(*bot).CellsAroundHit = append((*bot).CellsAroundHit, &(*aiFightBoard).Cells[(*bot).Cells[i].I][(*bot).Cells[i].J-1])
-		fmt.Println((*bot).Cells[i].I, (*bot).Cells[i].J-1)
 	}
 	if (*bot).Cells[i].I-1 >= 0 && (*aiFightBoard).Cells[(*bot).Cells[i].I-1][(*bot).Cells[i].J].State == core.Empty {
 		(*bot).CellsAroundHit = append((*bot).CellsAroundHit, &(*aiFightBoard).Cells[(*bot).Cells[i].I-1][(*bot).Cells[i].J])
-		fmt.Println((*bot).Cells[i].I-1, (*bot).Cells[i].J)
 	}
 }
 

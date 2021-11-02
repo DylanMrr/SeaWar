@@ -31,7 +31,8 @@ func PrintBoard(board *domain.Board) {
 }
 
 func PrintBoards(userBoard *domain.Board, userFightBoard *domain.Board) {
-	fmt.Println("Ваша доска                    Доска соперника")
+	fmt.Println()
+	fmt.Println("Твоя доска                    Доска соперника")
 	fmt.Println("  |a b c d e f g h i j          |a b c d e f g h i j")
 	fmt.Println("______________________         ______________________")
 	for i := 0; i < 10; i++ {

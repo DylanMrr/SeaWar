@@ -8,7 +8,7 @@ import (
 	"github.com/DylanMrr/seawar/domain"
 )
 
-func InitField(k *int) (*domain.Board, bool) {
+func InitField() (*domain.Board, bool) {
 	var board domain.Board = domain.Board{}
 
 	for i := 9; i >= 0; i-- {
@@ -21,7 +21,6 @@ func InitField(k *int) (*domain.Board, bool) {
 				ok = true
 				break
 			}
-			(*k)++
 		}
 		if !ok {
 			return nil, false
@@ -34,9 +33,10 @@ func InitField(k *int) (*domain.Board, bool) {
 
 func canAddShipToBoard(board *domain.Board, shipSize int) (*domain.Ship, bool) {
 	rand.Seed(time.Now().UnixNano())
+	orientation := rand.Intn(2)
+
 	i := rand.Intn(10)
 	j := rand.Intn(10)
-	orientation := rand.Intn(2)
 	firstCell := domain.Cell{I: i, J: j, State: core.Ship}
 	ship := domain.Ship{Orientation: core.Orientation(orientation), Length: shipSize, FirstCell: firstCell}
 
